@@ -58,20 +58,20 @@ export default class Target
 
     raise()
     {
-        return this.animateTo(UP_ANGLE);
+        return this.animateTo(UP_ANGLE, TWEEN.Easing.Back.Out);
     }
 
     lower()
     {
-        return this.animateTo(DOWN_ANGLE);
+        return this.animateTo(DOWN_ANGLE, TWEEN.Easing.Quadratic.InOut);
     }
 
-    animateTo(rotationX)
+    animateTo(rotationX, easing = TWEEN.Easing.Quadratic.InOut)
     {
         return new Promise((resolve) => {
             new TWEEN.Tween(this.pivot.rotation)
                 .to({ x: rotationX }, FLIP_DURATION_MS)
-                .easing(TWEEN.Easing.Quadratic.InOut)
+                .easing(easing)
                 .onComplete(resolve)
                 .start();
         });
