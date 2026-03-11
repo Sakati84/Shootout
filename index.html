@@ -53,10 +53,14 @@
 				const response = await fetch('./target-positions.json');
 				const targetPositions = await response.json();
 
-				var Targets = targetPositions.map(position => new Target(position.x, position.y, scene));
+				const targets = targetPositions.map(position => new Target(position.x, position.y, scene));
+				await Promise.all(targets.map(target => target.ready));
+
+				return targets;
 			}
 
-			await initTargets();
+			const targets = await initTargets();
+			Target.runCycle(targets);
 			animate();
 		</script>
 	</body>
