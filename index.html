@@ -47,19 +47,16 @@
 				renderer.render( scene, camera );
 			};
 
-			//create Targets
-			var Targets = [
-				new Target(-5, 0, scene),
-				new Target(0, 0, scene),
-				new Target(5, 0, scene),
-				new Target(-5, 8, scene),
-				new Target(0, 8, scene),
-				new Target(5, 8, scene),
-				new Target(-5, -8, scene),
-				new Target(0, -8, scene),
-				new Target(5, -8, scene)
-			]
+			//create Targets from external JSON config
+			async function initTargets()
+			{
+				const response = await fetch('/target-positions.json');
+				const targetPositions = await response.json();
 
+				var Targets = targetPositions.map(position => new Target(position.x, position.y, scene));
+			}
+
+			await initTargets();
 			animate();
 		</script>
 	</body>
